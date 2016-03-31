@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . env.sh 
+export PATH=$PATH:$HOME/local
 
 # Raco setup
 git clone https://github.com/uwescience/raco.git
@@ -24,7 +25,6 @@ wget https://github.com/github/git-lfs/releases/download/v1.1.2/git-lfs-linux-am
 	tar xzvf git-lfs-linux-amd64-1.1.2.tar.gz && \
 	cd git-lfs-1.1.2 && \
 	mkdir -p $HOME/local && \
-	export PATH=$PATH:$HOME/local && \
 	PREFIX=$HOME/local ./install.sh && \
 	git lfs install && \
 	cd ..
