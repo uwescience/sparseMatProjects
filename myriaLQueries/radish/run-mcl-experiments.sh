@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . env.sh 
-export PATH=$PATH:$HOME/local
+export PATH=$PATH:$HOME/local/bin
 
 # Raco setup
 git clone https://github.com/uwescience/raco.git
