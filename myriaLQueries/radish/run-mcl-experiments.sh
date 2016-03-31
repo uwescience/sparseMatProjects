@@ -3,7 +3,7 @@
 . env.sh 
 
 # Raco setup
-git checkout https://github.com/uwescience/raco.git
+git clone https://github.com/uwescience/raco.git
 cd raco && \
 	pip install --user -r requirements-dev.txt && \
 	python setup.py develop --user && \
