@@ -50,6 +50,6 @@ cd raco/c_test_environment && \
 	cd ../..
 
 # hosts in mpi cluster
-grep -E 'master|node[0-9]{3}' /etc/hosts >$HOME/hostfile
+grep -E 'master|node[0-9]{3}' /etc/hosts | awk '{print $2}' >$HOME/hostfile
 
 echo 'example command: mpirun -np 64 -hostfile=$HOME/hostfile -- applications/join/grappa_MCL_MyriaL.exe --input_file_graph=$HOME/sparseMatProjects/matrices/undirNet_1000.matrix.dat'
