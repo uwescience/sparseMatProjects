@@ -19,17 +19,17 @@ if [ -L /mnt/ramdisk/data ]; then
     rm /mnt/ramdisk/data
 fi
 
-if [ -L ~sgeadmin/data ]; then
-    echo "removing symlink ~sgeadmin/data"
-    rm ~sgeadmin/data
+if [ -L ~sgeadmin/data ]; then 
+    echo "~sgeadmin/data exists, please remove if it is broken" 
+    exit
 fi
-    
-su - sgeadmin -c 'mkdir -p $HOME/data'
-
-if [ -d ~sgeadmin/data ]; then
+   
+if [ -d /mnt/ramdisk/data ]; then
+    echo "/mnt/ramdisk/data exists, so not moving anything"
+else
+    su - sgeadmin -c 'mkdir -p $HOME/data'
     echo "moving and linking data"   
     su - sgeadmin -c 'mv $HOME/data /mnt/ramdisk/'
-    su - sgeadmin -c 'cd $HOME && ln -s /mnt/ramdisk/data'
-else
-    echo "ERROR: ~sgeadmin/data should be a directory"
 fi
+
+su - sgeadmin -c 'cd $HOME && ln -s /mnt/ramdisk/data'
