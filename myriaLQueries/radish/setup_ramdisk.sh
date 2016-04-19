@@ -10,7 +10,7 @@ mkdir -p $HOME/data
 
 if mount | grep ramdisk > /dev/null; then 
     echo "SKIP: mount /mnt/ramdisk"
-then
+else
     echo "mount /mnt/ramdisk"
     mount -t tmpfs -o size=40g tmpfs /mnt/ramdisk
 fi
