@@ -32,4 +32,4 @@ else
     su - sgeadmin -c 'mv $HOME/data /mnt/ramdisk/'
 fi
 
-su - sgeadmin -c 'cd $HOME && ln -s /mnt/ramdisk/data'
+su - sgeadmin -c 'cd $HOME && ln -fs /mnt/ramdisk/data'
