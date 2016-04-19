@@ -5,7 +5,7 @@ if [ `whoami` != 'root' ]; then
 	exit
 fi
 
-mkdir /mnt/ramdisk
+mkdir -p /mnt/ramdisk
 mkdir -p $HOME/data
 
 if mount | grep ramdisk > /dev/null; then 
