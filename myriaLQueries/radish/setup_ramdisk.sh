@@ -6,7 +6,7 @@ if [ `whoami` != 'root' ]; then
 fi
 
 mkdir -p /mnt/ramdisk
-mkdir -p $HOME/data
+su - sgeadmin -c 'mkdir -p $HOME/data'
 
 if mount | grep ramdisk > /dev/null; then 
     echo "SKIP: mount /mnt/ramdisk"
@@ -20,10 +20,9 @@ if [ -L /mnt/ramdisk/data ]; then
     rm /mnt/ramdisk/data
 fi
 
-if [ -L $HOME/data ]; then
+if [ -L ~sgeadmin/data ]; then
     echo "SKIP: moving and linking data"   
-    echo "remove $HOME/data if symlinks wrong"
-elif [ -d $HOME/data ]; then
+elif [ -d ~sgeadmin/data ]; then
     echo "moving and linking data"   
     su - sgeadmin -c 'mv $HOME/data /mnt/ramdisk/'
     su - sgeadmin -c 'cd $HOME && ln -s /mnt/ramdisk/data'
