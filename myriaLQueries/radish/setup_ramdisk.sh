@@ -19,6 +19,6 @@ if [ -L $HOME/data ]; then
     echo "SKIP: moving and linking data"   
 else
     echo "moving and linking data"   
-    su - sgeadmin -c 'mv $HOME/data /mnt/ramdisk'
-    su - sgeadmin -c 'ln -s /mnt/ramdisk/data $HOME/data'
+    su - sgeadmin -c 'mv $HOME/data /mnt/ramdisk/'
+    su - sgeadmin -c 'cd $HOME && ln -s /mnt/ramdisk/data'
 fi
