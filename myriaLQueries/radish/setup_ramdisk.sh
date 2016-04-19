@@ -22,8 +22,9 @@ fi
 if [ -L ~sgeadmin/data ]; then
     echo "removing symlink ~sgeadmin/data"
     rm ~sgeadmin/data
-    su - sgeadmin -c 'mkdir -p $HOME/data'
 fi
+    
+su - sgeadmin -c 'mkdir -p $HOME/data'
 
 if [ -d ~sgeadmin/data ]; then
     echo "moving and linking data"   
