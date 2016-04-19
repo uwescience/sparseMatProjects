@@ -17,27 +17,12 @@ cd $HOME/grappa && \
 	git checkout bmyerz/sru+merged && \
 	git cherry-pick c9bc0dd && \
 	./configure --cc=$(which gcc) --gen=Make 
-   
-# git lfs
-cd $HOME && wget https://github.com/github/git-lfs/releases/download/v1.1.2/git-lfs-linux-amd64-1.1.2.tar.gz && \
-	tar xzvf git-lfs-linux-amd64-1.1.2.tar.gz && \
-	cd git-lfs-1.1.2 && \
-	mkdir -p $HOME/local && \
-	PREFIX=$HOME/local ./install.sh && \
-	git lfs install 
-	
-# sparse matrix experiments
-cd $HOME/sparseMatProjects && \
-	cd matrices && \
-	git lfs fetch && \
-   	git lfs checkout undirNet_graphs.tgz && \
-	git lfs checkout random_10k_matrices.tgz && \
-	git lfs checkout random_20k_matrices.tgz && \
-	git lfs checkout random_50k_matrices.tgz && \
-  	tar xzvf undirNet_graphs.tgz && \
-  	tar xzvf random_10k_matrices.tgz && \
-  	tar xzvf random_20k_matrices.tgz && \
-  	tar xzvf random_50k_matrices.tgz
+
+# aws configure!   
+mkdir $HOME/data
+cd $HOME/data && \
+    aws s3 get 's3://uwdb/shbae/graphs/*.dat' && \
+    aws s3 get 's3://uwdb/shbae/graphs/*.dat'
 
 # hosts in mpi cluster
 grep -E 'master|node[0-9]{3}' /etc/hosts | awk '{print $2}' >$HOME/hostfile
