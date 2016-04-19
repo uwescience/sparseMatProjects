@@ -32,4 +32,9 @@ else
     su - sgeadmin -c 'mv $HOME/data /mnt/ramdisk/'
 fi
 
-su - sgeadmin -c 'cd $HOME && ln -fs /mnt/ramdisk/data'
+if [ -d ~sgeadmin/data ]; then
+    echo "~sgeadmin/data not pointed to /mnt/ramdisk/data; please determine which is golden copy and delete the other"
+    exit
+else
+    su - sgeadmin -c 'cd $HOME && ln -s /mnt/ramdisk/data'
+fi
