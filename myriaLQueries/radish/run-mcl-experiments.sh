@@ -21,8 +21,8 @@ cd $HOME/grappa && \
 # aws configure!   
 mkdir $HOME/data
 cd $HOME/data && \
-    aws s3 cp 's3://uwdb/shbae/graphs/*.dat' && \
-    aws s3 cp 's3://uwdb/shbae/graphs/*.dat'
+    aws s3 cp 's3://uwdb/shbae/graphs/*.dat' . && \
+    aws s3 cp 's3://uwdb/shbae/graphs/*.dat' .
 
 # hosts in mpi cluster
 grep -E 'master|node[0-9]{3}' /etc/hosts | awk '{print $2}' >$HOME/hostfile
