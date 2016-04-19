@@ -15,6 +15,11 @@ else
     mount -t tmpfs -o size=40g tmpfs /mnt/ramdisk
 fi
 
+if [ -L /mnt/ramdisk/data ]; then
+    echo "cleaned up bad symlink /mnt/ramdisk/data"
+    rm /mnt/ramdisk/data
+fi
+
 if [ -L $HOME/data ]; then
     echo "SKIP: moving and linking data"   
     echo "remove $HOME/data if symlinks wrong"
