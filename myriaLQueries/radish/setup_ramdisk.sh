@@ -6,7 +6,6 @@ if [ `whoami` != 'root' ]; then
 fi
 
 mkdir -p /mnt/ramdisk
-su - sgeadmin -c 'mkdir -p $HOME/data'
 
 if mount | grep ramdisk > /dev/null; then 
     echo "SKIP: mount /mnt/ramdisk"
@@ -21,9 +20,15 @@ if [ -L /mnt/ramdisk/data ]; then
 fi
 
 if [ -L ~sgeadmin/data ]; then
-    echo "SKIP: moving and linking data"   
-elif [ -d ~sgeadmin/data ]; then
+    echo "removing symlink ~sgeadmin/data"
+    rm ~sgeadmin/data
+    su - sgeadmin -c 'mkdir -p $HOME/data'
+fi
+
+if [ -d ~sgeadmin/data ]; then
     echo "moving and linking data"   
     su - sgeadmin -c 'mv $HOME/data /mnt/ramdisk/'
     su - sgeadmin -c 'cd $HOME && ln -s /mnt/ramdisk/data'
+else
+    echo "ERROR: ~sgeadmin/data should be a directory"
 fi
