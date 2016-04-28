@@ -19,7 +19,7 @@ resolved <- sqldf("select *, 'btwnCent' as task from cleaned
                  or task_string='threeSparseMatMultQuery_MyriaL.sql'
                  union all
                  select *, 'MCL' as task from cleaned
-                 where task_string='MCL' or task_string='MCL_MyriaL.sql'")
+                 where task_string='MCL' or task_string='MCL_MyriaL' or task_string='MCL_MyriaL.sql'")
 stopifnot(dim(cleaned)[0]==dim(resolved)[0])
 
 plot <- ggplot(resolved, aes(x=dataset, y=runtime, fill=system)) +
