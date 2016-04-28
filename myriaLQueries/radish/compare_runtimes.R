@@ -7,6 +7,15 @@ colnames(raw) <- c("system", "task_string", "task_logical", "task_physical", "in
 
 cleaned <- na.omit(raw)
 
+# Resolve dataset names
+#resolved <- sqldf(c("update cleaned set dataset='undirNet_1000_sm.matrix.dat' where dataset='undirNet_1000.matrix.dat'",
+#                    "select * from main.cleaned"))
+#resolved <- sqldf(c("update resolved set dataset='undirNet_5000_sm.matrix.dat' where dataset='undirNet_5000.matrix.dat'",
+#                    "select * from main.resolved"))
+cleaned[cleaned$dataset=='undirNet_1000.matrix.dat',]$dataset <- 'undirNet_1000_sm.matrix.dat'
+cleaned[cleaned$dataset=='undirNet_5000.matrix.dat',]$dataset <- 'undirNet_5000_sm.matrix.dat'
+
+# Resolve application names
 resolved <- sqldf("select *, 'btwnCent' as task from cleaned
                  where task_string='btwnCent' or task_string='btwnCent_batch_MyriaL'
                  union all
