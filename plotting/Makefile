@@ -14,3 +14,6 @@ runtime_vs_ntuples.pdf: runtime_vs_ntuples.R $(RCOMMON) ${SHARED_DATA}
 
 compare_runtimes.pdf: compare_runtimes.R $(RCOMMON) ${SHARED_DATA}
 	Rscript $<
+
+clean:
+	rm $(SHARED_DATA) runtime_vs_ntuples.pdf compare_runtimes.pdf
