@@ -1,9 +1,9 @@
 library(sqldf)
 
-raw <- read.csv("google_sheet.csv", header=TRUE, sep=',')
+raw <- read.csv("sheet_experiments.csv", header=TRUE, sep=',')
 colnames(raw) <- c("system", "task_string", "task_logical", "task_physical", "instance_type", "nworkers", "dataset", "runtime", "notes1", "notes2")
 
-datasets <- read.csv("datasets.csv", header=TRUE, sep=',')
+datasets <- read.csv("sheet_datasets.csv", header=TRUE, sep=',')
 
 cleaned <- na.omit(raw)
 
