@@ -4,7 +4,7 @@
 alpha = [.85];
 epsilon = [.0001];
 
-Edge = SCAN(public:adhoc:edges);
+Edge = SCAN(public:adhoc:graph);
 --Vertex = SCAN(public:adhoc:vertices);
 
 -- the distinct and union query to calculate vertex
