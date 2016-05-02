@@ -1,0 +1,51 @@
+
+-- Simplified PageRank; assumes that all nodes have out degree > 0
+
+-- this version differs from pagerank.myl by keeping the degree with the rank, but I've found it doesn't matter
+
+alpha = [.85];
+epsilon = [.0001];
+
+Edge = SCAN(public:adhoc:edges);
+--Vertex = SCAN(public:adhoc:vertices);
+
+-- the distinct and union query to calculate vertex
+srcs = select src as id, src as fake from Edge;
+dsts = select dst as id, dst as fake from Edge;
+dups = UNIONALL(srcs, dsts);
+vertexfake = select id, max(fake) from dups; --dedup
+Vertex = select id from vertexfake;
+
+N = [FROM Vertex EMIT COUNT(id) AS val];
+min_rank = [(1 - *alpha) / *N];
+
+OutDegree = [FROM Edge EMIT Edge.src AS id, COUNT(Edge.dst) AS cnt];
+PageRank = [FROM Vertex EMIT Vertex.id AS id, 1.0 / *N AS rank];
+PropVertex = [FROM PageRank, OutDegree WHERE PageRank.id == OutDegree.id
+                EMIT PageRank.id AS id, PageRank.rank AS rank, OutDegree.cnt as cnt];
+
+DO
+    -- Calculate each node's outbound page rank contribution
+    PrOut = [FROM PropVertex EMIT id AS id, rank / cnt AS out_rank];
+
+    -- Compute the inbound summands for each node
+    Summand = [FROM PropVertex tv, Edge, PrOut fv 
+                WHERE Edge.dst == tv.id AND Edge.src == fv.id
+                EMIT tv.id AS id, fv.out_rank AS summand, tv.cnt as cnt];
+-- mashing cnt with the id here to keep it around; so the key will include cnt
+-- but we know it is functional dependent on id, so its ok
+    
+    -- Sum up the summands; adjust by alpha
+    NewPropVertex = [FROM Summand EMIT id AS id,
+                   *min_rank + *alpha * SUM(Summand.summand) AS rank, cnt as cnt];
+    Delta = [FROM NewPropVertex, PropVertex WHERE NewPropVertex.id == PropVertex.id
+             EMIT ABS(NewPropVertex.rank - PropVertex.rank) AS val];
+    Continue = [FROM Delta EMIT MAX(Delta.val) > *epsilon];
+    PropVertex = NewPropVertex;
+WHILE Continue;
+
+-- project out outdegree
+FinalPagerank = select id, rank from PropVertex;
+
+--STORE(FinalPagerank, OUTPUT);
+STORE(Vertex, OUTPUT);
